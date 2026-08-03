@@ -35,9 +35,16 @@ resource "aws_lambda_function" "functions" {
   s3_bucket     = var.bucket
   s3_key        = each.value.s3_key
   handler       = each.value.handler
-  runtime       = "python3.10"
+  runtime       = "python3.12"
   role          = aws_iam_role.role.arn
-  
+
+  # The handlers read this at import time rather than calling list_tables() on
+  # every request, so the table is explicit instead of "whichever came back first".
+  environment {
+    variables = {
+      TABLE_NAME = aws_dynamodb_table.crud_table.name
+    }
+  }
 }
 
 # Define API Gateway permissions
@@ -50,7 +57,7 @@ resource "aws_lambda_permission" "apigw_permissions" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.functions[each.key].function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_apigatewayv2_api.api.execution_arn}${each.value.source_arn}"
+  source_arn    = "${aws_apigatewayv2_api.api.execution_arn}${each.value.source_arn}"
 
 }
 
@@ -59,6 +66,6 @@ resource "aws_lambda_permission" "apigw_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.functions["read"].function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_apigatewayv2_api.api.execution_arn}${var.source_arn[2]}"
+  source_arn    = "${aws_apigatewayv2_api.api.execution_arn}${var.source_arn[2]}"
 
 }

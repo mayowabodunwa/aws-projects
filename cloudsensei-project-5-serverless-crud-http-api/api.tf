@@ -2,20 +2,20 @@
 locals {
   api_routes = {
     create = {
-      route_key            = "POST /items",
-      integration_name      = aws_lambda_function.functions["create"].function_name
+      route_key        = "POST /items",
+      integration_name = aws_lambda_function.functions["create"].function_name
     },
     read = {
-      route_key            = "GET /items",
-      integration_name     = aws_lambda_function.functions["read"].function_name
+      route_key        = "GET /items",
+      integration_name = aws_lambda_function.functions["read"].function_name
     },
     update = {
-      route_key            = "PUT /items/{id}",
-      integration_name     = aws_lambda_function.functions["update"].function_name
+      route_key        = "PUT /items/{id}",
+      integration_name = aws_lambda_function.functions["update"].function_name
     },
     delete = {
-      route_key            = "DELETE /items/{id}",
-      integration_name      = aws_lambda_function.functions["delete"].function_name
+      route_key        = "DELETE /items/{id}",
+      integration_name = aws_lambda_function.functions["delete"].function_name
     }
   }
 }
@@ -23,8 +23,8 @@ locals {
 locals {
   route = {
     read = {
-      route_key            = "GET /items/{id}",
-      integration_name     = aws_lambda_function.functions["read"].function_name
+      route_key        = "GET /items/{id}",
+      integration_name = aws_lambda_function.functions["read"].function_name
     }
   }
 }
@@ -59,9 +59,9 @@ resource "aws_apigatewayv2_route" "routes" {
 resource "aws_apigatewayv2_route" "route" {
   for_each = local.route
 
-  api_id = aws_apigatewayv2_api.api.id
+  api_id    = aws_apigatewayv2_api.api.id
   route_key = each.value.route_key
-  target = "integrations/${aws_apigatewayv2_integration.api_integrations["read"].id}"
+  target    = "integrations/${aws_apigatewayv2_integration.api_integrations["read"].id}"
 }
 
 # Define and deploy API Gateway stage

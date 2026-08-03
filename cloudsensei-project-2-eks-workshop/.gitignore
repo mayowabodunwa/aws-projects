@@ -1,6 +1,0 @@
-*.terraform
-*.git
-*.lock
-*.hcl
-*.tfplan
-*.backup

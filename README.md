@@ -59,9 +59,10 @@ and an Aurora cluster, which cost real money by the hour.
 - These are labs, not production. They favour a working end-to-end stack over
   hardening: there's no multi-account or multi-region story, and project 1's
   security groups are broader than they should be.
-- Project 3 keeps a `.env.example` per service. The real `.env` files are
-  gitignored — an earlier commit had a live-looking Mongo Atlas URI in one.
-- An earlier commit of project 1 checked `terraform.tfvars` in with a demo
-  database password. The file is now gitignored and replaced by
-  `terraform.tfvars.example`, but both it and the Mongo URI remain in this
-  repo's history — neither was used outside a torn-down lab.
+- Secrets are read from the environment or from gitignored files, with a
+  `.example` committed alongside each: `terraform.tfvars.example` in projects 1
+  and 5, and a `.env.example` per service in project 3.
+- Early commits did check in a database password and a Mongo Atlas URI. Those
+  values have been purged from the history and the branches force-pushed, so
+  the old commits now read `REDACTED` and a placeholder. Neither was used
+  outside a lab that no longer exists.

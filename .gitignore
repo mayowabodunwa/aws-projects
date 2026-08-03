@@ -1,6 +1,20 @@
-*.terraform
-*.git
-*.lock
-*.hcl
+# Terraform working directories and plugin cache
+.terraform/
+.terraform.lock.hcl
 *.tfplan
 *.backup
+
+# State can contain secrets in plaintext — never commit it, even for a lab
+*.tfstate
+*.tfstate.*
+
+# Variable files hold real values; only the .example versions are tracked
+*.tfvars
+!*.tfvars.example
+
+# Credentials
+.env
+*.pem
+
+# Node
+node_modules/

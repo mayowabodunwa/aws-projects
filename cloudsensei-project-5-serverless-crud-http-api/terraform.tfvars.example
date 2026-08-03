@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+#
+# S3 bucket names are globally unique across all of AWS, so this has to be
+# changed to something of your own before apply will succeed.
+
+bucket = "CHANGE-ME-lambda-artifact-bucket"
